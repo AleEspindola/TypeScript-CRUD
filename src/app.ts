@@ -1,7 +1,10 @@
 import express from "express";
-import * as exphbs from "express-handlebars";
+import { create } from "express-handlebars";
 import morgan from "morgan";
 import path from "path";
+
+import indexRoutes from "./routes";
+import tasksRoutes from "./routes/tasks";
 
 class Application {
   app: express.Application;
@@ -18,17 +21,25 @@ class Application {
     this.app.set("views", path.join(__dirname, "views"));
     this.app.engine(
       ".hbs",
-      exphbs({
-        /* Ver por qué acá no puedo usar el modulo ese */
-      })
+      create({
+        layoutsDir: path.join(this.app.get("views"), "layouts"),
+        partialsDir: path.join(this.app.get("views"), "partials"),
+        defaultLayout: "main",
+        extname: ".hbs",
+      }).engine
     );
+    this.app.set("view engine", ".hbs");
   }
 
   middlewares() {
     this.app.use(morgan("dev"));
   }
 
-  routes() {}
+  routes() {
+    this.app.use(indexRoutes);
+    this.app.use("/tasks", tasksRoutes);
+    this.app.use(express.static(path.join(__dirname, "public")));
+  }
 
   start() {
     this.app.listen(this.app.get("port"), () => {
