@@ -1,3 +1,3 @@
 # TypeScript-CRUD
 
-Tutorial: https://www.youtube.com/watch?v=EerPAh7pKIo
+Basic Task CRUD with TypeScript and Handlebars
