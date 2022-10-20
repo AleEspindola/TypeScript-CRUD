@@ -7,7 +7,7 @@ import Task from "../models/Task";
 router
   .route("/create")
   .get((req: Request, res: Response) => {
-    res.render("/tasks/create");
+    res.render("tasks/create");
   })
   .post(async (req: Request, res: Response) => {
     const { title, description } = req.body;
